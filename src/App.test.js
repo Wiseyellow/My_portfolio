@@ -1,8 +1,19 @@
 import { render, screen } from '@testing-library/react';
-import App from './App';
+import Header from './Header';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+
+
+jest.mock('react', () => {
+  const originalReact = jest.requireActual('react');
+  return {
+      ...originalReact,
+      useContext: jest.fn(() => ({ basename: 'mockValue' })),
+  };
+});
+
+
+test('renders welcome paragraph', () => {
+  render(<Header />);
+  const paragraph = screen.getByText("Home");
+  expect(paragraph).toBeInTheDocument();
 });
